@@ -3,9 +3,11 @@ package com.zipcodewilmington.streams.anthropoid;
 import com.zipcodewilmington.streams.tools.RandomUtils;
 import com.zipcodewilmington.streams.tools.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -39,7 +41,31 @@ public final class PersonFactory {
      * @return - ArrayList of Person objects
      */ // TODO
     public List<Person> createPersonList(int listSize) {
-        return null;
+        //Using the regular method
+        List<Person> output1 = new ArrayList<>();
+        for(int i = 0; i < listSize; i++){
+            output1.add(createRandomPerson());
+        }
+
+        //Now use the stream method
+        List<Person> output2 = new ArrayList<>();
+        //Stream<Person> personStream = output2.stream().
+        //Stream.generate(Person::new).limit(listSize).collect(Collectors.toList());
+        //Stream<Person> stream = createPersonStream(listSize).collect(Collectors.toList())
+        //Stream<Person> stream = c
+
+//        return IntStream.range(0, listSize)
+//                .mapToObj(Object::new) // or x -> new Object(x).. or any other constructor
+//                x-> createRandomPerson()
+//                .collect(Collectors.toList());
+//        List<Person> output3 = IntStream.range(0, listSize).boxed()
+//                .collect(Collectors.toList(
+//                        createRandomPerson()-> i
+//                ));
+
+        List<Person> output3 = createPersonStream(listSize).collect(Collectors.toList());
+
+        return output3;
     }
 
 
@@ -48,7 +74,8 @@ public final class PersonFactory {
      * @return - Array of Person objects
      */ // TODO
     public Person[] createPersonArray(int arrayLength) {
-        return null;
+
+        return createPersonStream(arrayLength).toArray(Person[]::new);
     }
 
 
@@ -59,6 +86,7 @@ public final class PersonFactory {
      * @return - Stream representation of collection of Person objects
      */ // TODO
     public Stream<Person> createPersonStream(int streamCount) {
-        return null;
+        Stream<Person> personStream = Stream.generate(()->createRandomPerson()).limit(streamCount);
+        return personStream;
     }
 }
